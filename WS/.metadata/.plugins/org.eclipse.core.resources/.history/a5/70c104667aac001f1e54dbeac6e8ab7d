@@ -1,0 +1,5 @@
+package com.cts.adb.units.repos;
+
+public class ContactRepositoryTest {
+
+}

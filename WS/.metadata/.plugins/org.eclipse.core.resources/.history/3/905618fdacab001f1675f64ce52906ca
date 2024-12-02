@@ -1,0 +1,33 @@
+package com.cts.adb.controllers;
+
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.cts.adb.exception.ContactNotFoundException;
+import com.cts.adb.exception.InvalidContactDetailsException;
+
+@RestControllerAdvice
+public class GlobalExceptionHandlerAdvice {
+
+	@Autowired
+	private Logger logger;
+	
+	@ExceptionHandler(exception = ContactNotFoundException.class)
+	public ResponseEntity<String> handleContactNotFoundException(ContactNotFoundException exp){
+		return new ResponseEntity<String>(exp.getMessage(),HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(exception = InvalidContactDetailsException.class)
+	public ResponseEntity<String> handleInvalidContactDetailsException(InvalidContactDetailsException exp){
+		return new ResponseEntity<String>(exp.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(exception = Exception.class)
+	public ResponseEntity<String> handlerForUnhandledExceptions(Exception exp){
+		return new ResponseEntity<String>(exp.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+}
